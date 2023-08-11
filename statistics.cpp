@@ -10,8 +10,10 @@ public:
 	virtual ~IStatistics() {}
 
 	virtual void update(double next) = 0;
+
 	virtual double eval() const = 0;
-	virtual const char * name() const = 0;
+
+	virtual const char *name() const = 0;
 };
 
 class Min : public IStatistics {
@@ -29,7 +31,7 @@ public:
 		return min_;
 	}
 
-	const char * name() const override {
+	const char *name() const override {
 		return "min";
 	}
 
@@ -53,7 +55,7 @@ public:
 		return max_;
 	}
 
-	const char * name() const override {
+	const char *name() const override {
 		return "max";
 	}
 
@@ -76,7 +78,7 @@ public:
 		return mean_;
 	}
 
-	const char * name() const override {
+	const char *name() const override {
 		return "mean";
 	}
 
@@ -97,18 +99,18 @@ public:
 	}
 
 	double eval() const override {
-		for(double element : elements_){
+		for (double element: elements_) {
 			std_ = std_ + (element - (mean_.eval())) * (element - (mean_.eval()));
 		}
-		return sqrt(std_ / (double ) elements_.size());
+		return sqrt(std_ / (double) elements_.size());
 	}
 
-	const char * name() const override {
+	const char *name() const override {
 		return "std";
 	}
 
 private:
-	mutable double std_; 
+	mutable double std_;
 	Mean mean_;
 	std::vector<double> elements_;
 };
@@ -123,19 +125,29 @@ public:
 	}
 
 	double eval() const override {
-		std::sort(elements_.begin(), elements_.end());
-		int index = (int)ceil(pct_percent_ * elements_.size() / 100);
-		pct_ = elements_[index];
-		return pct_;
+		if(!elements_.empty()){
+			std::sort(elements_.begin(), elements_.end());
+			int index = (int) ceil(pct_percent_ * elements_.size() / 100);
+			pct_ = elements_[index];
+		}
+		return pct_;	
 	}
 
-	const char * name() const override {
-		std::string str = "pct" + (std::to_string(pct_percent_));
-		return str.data();
+	// тут у меня возникла проблема со сложением pct и pct_percent_, для вывода в функции main. Гугл
+	// помог не сильно - в онлайн компиляторе код работает, а в этой программе - нет.
+	// Выводит абракадабру
+	// const char * foo(int pct_percent_) {
+	// 	std::string str = "pct" + (std::to_string(pct_percent_));
+	// 	return str.data();
+	// }
+	// Ну и вообще в корректности этого класса у меня большие сомнения - 
+	// я не особо понял, что такое процентиль :)
+	const char *name() const override {
+		return "pct";
 	}
 
 private:
-	int pct_percent_;
-	mutable double pct_;
+	int pct_percent_ = 0;
+	mutable double pct_ = 0;
 	mutable std::vector<double> elements_;
 };
