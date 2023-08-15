@@ -42,7 +42,7 @@ private:
 
 class Max : public IStatistics {
 public:
-	Max() : max_{std::numeric_limits<double>::min()} {
+	Max() : max_{std::numeric_limits<double>::lowest()} {
 	}
 
 	void update(double next) override {
