@@ -73,8 +73,11 @@ namespace statistics{
 	}
 
 	double Pct::eval() const {
-		pct_ = elements_[(int)ceil(pct_percent_ * elements_.size() / 100)];
-		return pct_;
+		int index = (int)ceil(pct_percent_ * elements_.size() / 100);
+		std::nth_element(elements_.begin(), 
+		elements_.begin() + index, 
+		elements_.end());
+		return elements_[index];
 	}
 
 	const char * Pct::name() const {
