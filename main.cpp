@@ -1,8 +1,11 @@
-#include "statistics.cpp"
+#include <iostream>
 
+#include "statistics.hpp"
+
+using namespace statistics;
 
 int main() {
-	
+
 	const size_t statistics_count = 6;
 	IStatistics *statistics[statistics_count];
 
