@@ -7,7 +7,7 @@ namespace statistics{
 
 class IStatistics {
 public:
-	virtual ~IStatistics() {};
+	virtual ~IStatistics();
 
 	virtual void update(double next) = 0;
 
@@ -18,8 +18,7 @@ public:
 
 class Min final : public IStatistics {
 public:
-	Min() : min_{std::numeric_limits<double>::max()} {
-	}
+	Min();
 
 	void update(double next) override;
 
@@ -34,8 +33,7 @@ private:
 
 class Max final : public IStatistics {
 public:
-	Max() : max_{std::numeric_limits<double>::lowest()} {
-	}
+	Max();
 
 	void update(double next) override;
 
@@ -49,8 +47,7 @@ private:
 
 class Mean final : public IStatistics {
 public:
-	Mean() {
-	}
+	Mean();
 
 	void update(double next) override;
 
@@ -65,8 +62,7 @@ private:
 
 class Std final : public IStatistics {
 public:
-	Std() : std_{0} {
-	}
+	Std();
 
 	void update(double next) override;
 
@@ -82,8 +78,7 @@ private:
 
 class Pct final : public IStatistics {
 public:
-	Pct(int p) : pct_percent_{p} {
-	}
+	Pct(int p);
 
 	void update(double next) override;
 
@@ -92,10 +87,11 @@ public:
     const char *name() const override;
 
 private:
-	mutable double pct_ = 0;
 	int pct_percent_ = 0;
 	mutable std::vector<double> elements_;
     mutable std::string pct_name_ = "";
 };
+
+
 
 } // end statistics

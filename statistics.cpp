@@ -7,9 +7,15 @@
 
 #include "statistics.hpp"
 
-using namespace std::literals;
-
 namespace statistics{
+
+	// -------------------- IStatistics --------------------
+	IStatistics::~IStatistics() {};
+
+
+	// -------------------- Min --------------------
+	Min::Min() : min_{std::numeric_limits<double>::max()} {
+	}
 
 	void Min::update(double next) {
 		if (next < min_) {
@@ -23,6 +29,11 @@ namespace statistics{
 
 	const char * Min::name() const {
 		return "min";
+	}
+
+
+	// -------------------- Max --------------------
+	Max::Max() : max_{std::numeric_limits<double>::lowest()} {
 	}
 
 	void Max::update(double next) {
@@ -39,7 +50,12 @@ namespace statistics{
 		return "max";
 	}
 
-	void Mean::update(double next) {
+
+    // -------------------- Mean --------------------
+	Mean::Mean(){
+    }
+
+    void Mean::update(double next) {
 		++count_;
 		sum_ += next;
 	}
@@ -50,6 +66,11 @@ namespace statistics{
 
 	const char * Mean::name() const {
 		return "mean";
+	}
+
+
+	// -------------------- Std --------------------
+	Std::Std() : std_{0} {
 	}
 
 	void Std::update(double next) {
@@ -68,17 +89,25 @@ namespace statistics{
 		return "std";
 	}
 
+
+	// -------------------- Pct --------------------
+	Pct::Pct(int p) : pct_percent_{p} {
+	}
+
 	void Pct::update(double next) {
 		elements_.push_back(next);
 	}
 
 	double Pct::eval() const {
-		pct_ = elements_[(int)ceil(pct_percent_ * elements_.size() / 100)];
-		return pct_;
+		int index = (int)ceil(pct_percent_ * elements_.size() / 100);
+		std::nth_element(elements_.begin(), 
+		elements_.begin() + index, 
+		elements_.end());
+		return elements_[index];
 	}
 
 	const char * Pct::name() const {
-		pct_name_ = "pct"s + (std::to_string(pct_percent_));
+		pct_name_ = "pct" + (std::to_string(pct_percent_));
 		return pct_name_.data();
 	}
 
