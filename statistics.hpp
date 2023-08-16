@@ -92,6 +92,7 @@ public:
     const char *name() const override;
 
 private:
+	mutable double pct_ = 0;
 	int pct_percent_ = 0;
 	mutable std::vector<double> elements_;
     mutable std::string pct_name_ = "";
