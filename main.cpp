@@ -1,6 +1,9 @@
 #include <iostream>
 
-#include "statistics.hpp"
+#include "Min.hpp"
+#include "Max.hpp"
+#include "Std.hpp"
+#include "Pct.hpp"
 
 using namespace statistics;
 
