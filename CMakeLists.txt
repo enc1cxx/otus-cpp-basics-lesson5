@@ -4,8 +4,13 @@ project(01.statistics
 )
 
 add_executable(statistics
-    statistics.cpp
     main.cpp
+    Min.cpp
+    Max.cpp
+    Mean.cpp
+    Std.cpp
+    Pct.cpp
+    IStatistics.cpp
 )
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR
